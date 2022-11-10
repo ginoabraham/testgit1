@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DotnetCoreSample1.Models.Domain;
+using DotnetCoreSample1.Models.DTO;
 using DotnetCoreSample1.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -49,6 +50,29 @@ namespace DotnetCoreSample1.Controllers
             var regionsDTO = Mapper.Map<List<Models.DTO.Region>>(regions);
 
             return Ok(regionsDTO);
+        }
+
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> GetRegionsAsync(Guid id)
+        {
+            var region = await regionRepository.GetRegionAsync(id);
+
+            if(region ==null)
+            {
+                return NotFound();
+            }
+
+            var regionDTO = Mapper.Map<Models.DTO.Region>(region);
+
+            return Ok(regionDTO);
+        }
+
+        [HttpPost]
+        [Route("{}")]
+        public async Task<IActionResult> AddRegionAsync(Models Region region)
+        { 
+        
         }
     }
 }
